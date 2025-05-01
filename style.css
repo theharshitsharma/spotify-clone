@@ -173,6 +173,12 @@ body {
   opacity: var(--a);
   transition: all 1s ease-out;
 }
+.songlist ul li.active {
+  background-color: #415861;
+  border-left: 4px solid rgb(95, 100, 54); /* Spotify green or any highlight color */
+  font-weight: bold;
+}
+
 .signupbtn {
   background-color: black;
   color: rgb(82, 82, 82);

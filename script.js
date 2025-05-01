@@ -1,8 +1,11 @@
 console.log("Let's write JavaScript");
 console.log("JavaScript is running!");
 
-let currentSongIndex = -1; // Stores the index of the currently playing song
-let audio = new Audio(); // Reuse the same audio element
+// Stores the index of the currently playing song
+let currentSongIndex = -1; 
+
+// Reuse the same audio element
+let audio = new Audio(); 
 
 // DOM elements
 let playButton = document.getElementById("playbutton");
@@ -17,8 +20,9 @@ let volumeSlider = document.querySelector("input[name='volume']");
 // Songs list (static for now)
 let songs = [
     "songs/G.O.A.T - Diljit Dosanjh - Copy (2).mp3",
-    "songs/G.O.A.T - Diljit Dosanjh - Copy (2).mp3",
-    "songs/G.O.A.T - Diljit Dosanjh - Copy (2).mp3"
+    "songs/Dollar-Slowed-Reverb - Copy (2).mp3",
+    "songs/Bapu - Amar Sandhu - Copy (3).mp3",
+    "songs/Khaab Akhil 128 Kbps - Copy.mp3"
 ];
 
 // Play a song by index
@@ -34,6 +38,10 @@ const playMusic = (index) => {
         console.log("Playing:", songs[index]);
         playButton.src = "pause.svg";
         songInfo.innerHTML = songs[index].split("/").pop().replace(/%20/g, " ");
+
+        // Highlight current playing song
+        document.querySelectorAll(".songlist ul li").forEach(li => li.classList.remove("active"));
+        document.querySelectorAll(".songlist ul li")[index]?.classList.add("active");
     }).catch(err => {
         console.error("Playback error:", err);
     });
@@ -107,9 +115,12 @@ function main() {
             if (currentSongIndex === -1) {
                 playMusic(0);
             } else {
-                audio.play();
+                audio.play().then(() => {
+                    playButton.src = "pause.svg";
+                }).catch(err => {
+                    console.error("Playback error:", err);
+                });
             }
-            playButton.src = "pause.svg";
         } else {
             audio.pause();
             playButton.src = "playbutton.svg";
@@ -124,6 +135,9 @@ function main() {
     volumeSlider.addEventListener("input", (e) => {
         audio.volume = e.target.value / 100;
     });
+
+    // Set default volume
+    audio.volume = 1;
 }
 
 // Play next song
@@ -138,4 +152,5 @@ const playPrevious = () => {
     playMusic(prevIndex);
 };
 
+// Initialize the app
 main();
