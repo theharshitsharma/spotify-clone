@@ -321,7 +321,6 @@ a:hover, a.active {
     outline: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background 0.1s linear;
 }
 
 .progress-bar::-webkit-slider-thumb {

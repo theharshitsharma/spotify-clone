@@ -24,7 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentSongIndex = -1;
     let isPlaying = false;
     let isShuffled = false;
-    let repeatMode = 'none';
+    let repeatMode = 'none'; // 'none', 'one', 'all'
+    let isSeeking = false;
 
     // Full 20-song playlist
     const songs = [
@@ -74,16 +75,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updatePlayingUI() {
-        document.querySelectorAll('.card').forEach(card => {
+        document.querySelectorAll('.card').forEach((card) => {
             const cardPlayBtn = card.querySelector('.card-play-btn i');
             const cardIndex = parseInt(card.dataset.index, 10);
-            
             const songInCard = songs[cardIndex];
             const currentSongInPlaylist = playlist[currentSongIndex];
 
-            if (isPlaying && currentSongInPlaylist && songInCard.src === currentSongInPlaylist.src) {
+            if (currentSongInPlaylist && songInCard.src === currentSongInPlaylist.src) {
                 card.classList.add('card--playing');
-                if (cardPlayBtn) cardPlayBtn.className = 'fas fa-pause';
+                if (cardPlayBtn) cardPlayBtn.className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
             } else {
                 card.classList.remove('card--playing');
                 if (cardPlayBtn) cardPlayBtn.className = 'fas fa-play';
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function updateProgress() {
-        if (audio.duration) {
+        if (audio.duration && !isSeeking) {
             const percentage = (audio.currentTime / audio.duration) * 100;
             progress.style.setProperty('--progress-percentage', `${percentage}%`);
             progress.value = percentage;
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (playlistIndex === currentSongIndex && isPlaying) {
                     pauseSong();
                 } else {
-                    if(playlistIndex !== currentSongIndex) {
+                    if (playlistIndex !== currentSongIndex) {
                         currentSongIndex = playlistIndex;
                         loadSong(playlist[currentSongIndex]);
                     }
@@ -200,12 +200,17 @@ document.addEventListener('DOMContentLoaded', () => {
     audio.addEventListener('timeupdate', updateProgress);
     audio.addEventListener('loadedmetadata', setDuration);
     
+    progress.addEventListener('mousedown', () => { isSeeking = true; });
     progress.addEventListener('input', (e) => {
         const value = e.target.value;
         progress.style.setProperty('--progress-percentage', `${value}%`);
+    });
+    progress.addEventListener('change', (e) => {
+        const value = e.target.value;
         if (audio.duration) {
             audio.currentTime = (value / 100) * audio.duration;
         }
+        isSeeking = false;
     });
 
     volumeSlider.addEventListener('input', (e) => {
@@ -226,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
             playlist = [...songs];
         }
 
-        if(currentSong) {
+        if (currentSong) {
             currentSongIndex = playlist.findIndex(song => song.src === currentSong.src);
         }
         

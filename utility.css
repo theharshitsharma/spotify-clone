@@ -1,75 +1,51 @@
 .flex {
     display: flex;
-}
-
-.justify-center {
+  }
+  
+  .justify-center {
     justify-content: center;
-}
-
-.items-center {
+  }
+  
+  .items-center {
     align-items: center;
-}
-
-.gap-1 {
+  }
+  
+  .gap-1 {
     gap: 10px;
-}
-
-.bg-black {
+  }
+  
+  .bg-black {
     background-color: black;
     color: white;
-}
-
-.bg-gray {
+  }
+  
+  .bg-gray {
     background-color: rgb(11, 11, 11);
-}
-
-.rounded {
+  }
+  
+  .rounded {
     border-radius: 10px;
-}
-
-.m2 {
+  }
+  
+  .m2 {
     margin: 2px;
-}
-
-.p1 {
+  }
+  
+  .p1 {
     padding: 10px;
-}
-
-.invert {
+  }
+  
+  .invert {
     filter: invert(1);
-}
-
-.border {
+  }
+  
+  .border {
     border: 2px solid rgb(17, 17, 17);
     margin: 3px;
-}
-.bg-black {
-    background-color: black;
-    color: white;
-}
-
-.bg-gray {
-    background-color: rgb(16, 13, 13);
-}
-
-.rounded {
-    border-radius: 10px;
-}
-
-.m2 {
-    margin: 2px;
-}
-
-.p1 {
-    padding: 10px;
-}
-
-.invert {
-    filter: invert(1);
-}
-
-/* width */
-::-webkit-scrollbar {
+  }
+  
+  /* Scrollbar styles */
+  ::-webkit-scrollbar {
     width: 10px;
   }
   
